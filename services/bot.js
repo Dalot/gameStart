@@ -31,6 +31,12 @@ module.exports = {
     set btcAsset(newObj)  {
         this.store.btcAsset = newObj;
     },
+    get usdAsset() {
+        return this.store.usdAsset;
+    },
+    set usdAsset(newObj)  {
+        this.store.usdAsset = newObj;
+    },
     get purchase()  {
         return this.store.purchase;
     },
@@ -50,6 +56,7 @@ module.exports = {
     async init() {
         // TODO: Make this into one query 
         this.btcAsset = await assetRepository.getBTCAsset();
+        this.usdAsset = await assetRepository.getUSDAsset();
         if(!this.btcAsset) {
             this.btcAsset = await assetRepository.create(0, Currency.BTC);
         }
@@ -81,16 +88,17 @@ module.exports = {
         
         if(this.sale.length !== 0) {
             this.sale = this.sale[0]
+            if (this.sale) {
+                const soldPrice = Big(this.sale.price);
+                const askPrice = Big(Number(this.tickData.ask));
+                if (this.shouldBuy(soldPrice, askPrice)) {
+                    await this.buyBTC();
+                    await this.updateBalance(1);
+                    return
+                }
+            }
         }
 
-        const soldPrice = Big(this.sale.price);
-        const askPrice = Big(Number(this.tickData.ask));
-        
-        if (this.shouldBuy(soldPrice, askPrice)) {
-            await this.buyBTC();
-            await this.updateBalance(1);
-            return
-        }
 
     },
     async updateBalance(amount) {
@@ -124,11 +132,27 @@ module.exports = {
         transactionRepository.buy(Currency.BTC, Currency.USD, this.tickData.ask).then((result) => {
             logger.info(`created transaction entry to BUY BTC for the price: ${result.price}`);
         })
+        const price = Big(this.tickData.ask);
+        const oldMoney = Big(this.usdAsset.amount);
+        const currentMoney = oldMoney.minus(price).toNumber();
+        
+        assetRepository.update(this.usdAsset.id, currentMoney).then(() => {
+            logger.info(`You current balance (-${price.toNumber()}): ${currentMoney}`);
+        })
     },
     async sellBTC() {
         transactionRepository.sell(Currency.BTC, Currency.USD, this.tickData.bid).then((result) => {
             logger.info(`created transaction entry to SELL BTC for the price: ${result.price}`);
         });
+
+        const price = Big(this.tickData.bid);
+        const oldMoney = Big(this.usdAsset.amount);
+        const currentMoney = oldMoney.plus(price).toNumber();
+        
+        
+        assetRepository.update(this.usdAsset.id, currentMoney).then(() => {
+            logger.info(`You current balance (+${price.toNumber()}): ${currentMoney}`);
+        })
     }
 }
 

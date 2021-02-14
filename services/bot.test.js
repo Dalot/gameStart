@@ -11,7 +11,12 @@ describe('botService', () => {
     beforeEach(async () => {
 
         try {
-            await db.sequelize.sync({ force: true })
+            await db.sequelize.sync({ force: true }).then(() => {
+                db.assets.create({
+                    currency: Currency.USD,
+                    amount: Number.MAX_SAFE_INTEGER,
+                })
+            })
             await db.sequelize.authenticate();
 
         } catch (error) {

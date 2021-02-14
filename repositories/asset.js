@@ -15,6 +15,11 @@ module.exports.getBTCAsset = async () => {
     return results.find(asset => asset.currency === Currency.BTC);
 };
 
+module.exports.getUSDAsset = async () => {
+    const results = await db.assets.findAll();
+    return results.find(asset => asset.currency === Currency.USD);
+};
+
 module.exports.update = async (id, newData) => {
     return await db.assets.update(newData, {
         where: {

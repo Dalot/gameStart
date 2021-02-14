@@ -13,7 +13,7 @@ const Entity = (sequelize, type) => {
             allowNull: false,
         },
         amount: {
-            type: type.DECIMAL(12, 8),
+            type: type.DECIMAL(24, 8),
             allowNull: false,
         },
     })

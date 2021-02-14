@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  postgres:
+    image: postgres:13.2
+    container_name: postgres
+    environment:
+      POSTGRES_USER: uphold
+      POSTGRES_PASSWORD: uphold
+      POSTGRES_DB: uphold
+    ports: 
+      - '5432:5432'
+    volumes:
+      - bot-db:/var/lib/postgresql/data
+
+  bot:
+    container_name: bot
+    build:
+      context: .
+    environment:
+      APP_ENV: production
+      DB_USER: uphold
+      DB_PASSWORD: uphold
+      DB_HOST: postgres
+      DB_DATABASE: uphold
+    depends_on:
+      - postgres
+        
+volumes:
+  bot-db:

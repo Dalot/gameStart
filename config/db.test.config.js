@@ -1,8 +1,8 @@
 module.exports = {
-    HOST: "localhost",
-    USER: "uphold",
-    PASSWORD: "secret",
-    DB: "uphold",
+    HOST: process.env.DB_HOST || "localhost",
+    USER: process.env.DB_USER || "uphold",
+    PASSWORD: process.env.DB_PASSWORD || "uphold",
+    DB: process.env.DB_DATABASE || "uphold",
     dialect: "sqlite",
     pool: {
       max: 5,
