@@ -1,6 +1,6 @@
 const assetRepository = require("../repositories/asset");
 const transactionRepository = require("../repositories/transaction");
-const botService = require("./botService");
+const botService = require("./bot");
 const db = require("../database/database");
 const { Currency } = require('../valueObjects/currency');
 const { TransactionType } = require('../models/transaction');
@@ -20,11 +20,11 @@ describe('botService', () => {
     });
 
     it('it should update amount of asset', async () => {
-        const result = await assetRepository.create(42, Currency.BTC);
+        const btcAsset = await assetRepository.create(42, Currency.BTC);
         
-        botService.updateBalance(result, 24);
+        botService.btcAsset = btcAsset;
+        botService.updateBalance(24);
         const finalResult = await assetRepository.getBTCAsset();
-        console.log(finalResult);
         expect(finalResult.currency).toEqual(Currency.BTC);
         expect(finalResult.amount).toEqual(24);
     });
@@ -42,13 +42,13 @@ describe('botService', () => {
     it('it should sell BTC after buying for a lower price', async () => {
         await transactionRepository.buy(Currency.BTC, Currency.USD, 100);
         const btcAsset = await assetRepository.create(1, Currency.BTC);
-        botService.setBtcAsset(btcAsset);
+        botService.btcAsset = btcAsset;
         let tickData = {
             bid:'105.0001',
             ask:'0',
-        }
-        botService.setTickData(tickData)
-        await botService.nextMove()
+        };
+        botService.tickData = tickData;
+        await botService.nextMove();
         const result = await transactionRepository.latest(TransactionType.SELL);
 
         expect(result[0].type).toEqual(TransactionType.SELL);
@@ -61,13 +61,14 @@ describe('botService', () => {
         await transactionRepository.buy(Currency.BTC, Currency.USD, 80);
         await transactionRepository.sell(Currency.BTC, Currency.USD, 105.0001);
         const btcAsset = await assetRepository.create(0, Currency.BTC);
-        botService.setBtcAsset(btcAsset);
-        let tickData = {
+        botService.btcAsset = btcAsset;
+        
+        botService.tickData = {
             bid:'0',
             ask:'100.0000',
-        }
-        botService.setTickData(tickData)
-        await botService.nextMove()
+            currency: Currency.USD,
+        };
+        await botService.nextMove();
         const result = await transactionRepository.latest(TransactionType.BUY);
 
         expect(result[0].type).toEqual(TransactionType.BUY);

@@ -29,7 +29,7 @@ module.exports.latest = async (type) => {
   return await db.transactions.findAll({
     limit: 1,
     where: {
-      type
+      type: type,
     },
     order: [['createdAt', 'DESC']]
   });

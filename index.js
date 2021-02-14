@@ -8,7 +8,7 @@ if (process.env.APP_ENV !== 'production') {
     db.sequelize.sync();
 }
 
-const bot = require("./services/botService");
+const bot = require("./services/bot");
 
 const ticker = (interval = 5000) => {
     setInterval(async () => {
