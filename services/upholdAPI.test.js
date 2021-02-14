@@ -1,4 +1,4 @@
-const UpholdAPI = require("./upholdAPI");
+const { UpholdAPI, Tickers } = require("./upholdAPI");
 
 test("Fetches USD-BTC ticker from API and returns an object with ask, bid and currency properties", async () => {
     expect.assertions(1);
