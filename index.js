@@ -13,14 +13,6 @@ const bot = require("./services/botService");
 const ticker = (interval = 5000) => {
     setInterval(async () => {
         const mustBuy = await bot.evaluate();
-
-        if (mustBuy) {
-            // TODO: VALIDATE
-            
-        } else {
-            // TODO: VALIDATE
-            transactionRepository.sell(data[0].bid)
-        }
     }, interval);
 };
 ticker()

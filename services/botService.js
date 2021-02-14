@@ -72,7 +72,7 @@ module.exports = {
 
         const boughtPrice = Big(purchase.price);
         const bidPrice = Big(Number(tickData.bid));
-        if (shouldSell(boughtPrice, bidPrice)) {
+        if (this.shouldSell(boughtPrice, bidPrice)) {
             sellBTC(tickData);
             this.updateBalance(btcAsset, 0);
             return
@@ -80,28 +80,27 @@ module.exports = {
         
         if(sale.length !== 0) {
             sale = sale[0]
+            const soldPrice = Big(sale.price);
+            const askPrice = Big(Number(tickData.ask));
+            if (this.shouldBuy(soldPrice, askPrice)) {
+                buyBTC(tickData);
+                this.updateBalance(btcAsset, 1);
+                return
+            }
         }
 
-        const soldPrice = Big(sale.price);
-        const askPrice = Big(Number(tickData.ask));
-        if (shouldBuy(soldPrice, askPrice)) {
-            buyBTC(tickData);
-            this.updateBalance(btcAsset, 1);
-            return
-        }
     },
     updateBalance: (btcAsset, amount) => {
         assetRepository.update(btcAsset.id, { amount });
+    },
+    shouldSell: (boughtPrice, bidPrice) => {
+        return bidPrice.gt(boughtPrice.times(PROFIT_MARGIN));
+    },
+    shouldBuy: (soldPrice, askPrice) => {
+        return askPrice.lt(soldPrice.times(PROFIT_MARGIN));
     }
 }
 
-const shouldSell = (boughtPrice, bidPrice) => {
-    return bidPrice.gt(boughtPrice.times(PROFIT_MARGIN));
-}
-
-const shouldBuy = (soldPrice, askPrice) => {
-    return askPrice.lt(soldPrice.times(PROFIT_MARGIN));
-}
 
 const tickUphold = async (ticker) => {
     if (!Validator.validateTicker(ticker)) {
