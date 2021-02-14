@@ -25,5 +25,6 @@ db.sequelize = sequelize;
 
 db.transactions = require("../models/transaction").Entity(sequelize, Sequelize);
 db.ticks = require("../models/tick").Entity(sequelize, Sequelize);
+db.assets = require("../models/asset").Entity(sequelize, Sequelize);
 
 module.exports = db;

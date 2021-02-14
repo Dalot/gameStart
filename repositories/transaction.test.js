@@ -1,15 +1,17 @@
 const transactionRepository = require("./transaction");
 const db = require("../database/database");
-const {TransactionType, Currency} = require('../models/transaction');
+const { TransactionType } = require('../models/transaction');
+const { Currency } = require('../valueObjects/currency');
+
 
 
 describe('Transaction CRUD', () => {
     beforeEach(async () => {
-        
+
         try {
             await db.sequelize.sync({ force: true })
             await db.sequelize.authenticate();
-            
+
         } catch (error) {
             console.error('Unable to connect to the database:', error);
         }

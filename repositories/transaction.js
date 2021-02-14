@@ -32,7 +32,5 @@ module.exports.latest = async (type) => {
       type
     },
     order: [['createdAt', 'DESC']]
-  }).then(entries => {
-    entries[0];
   });
 }

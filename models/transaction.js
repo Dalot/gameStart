@@ -1,12 +1,8 @@
+const { Currency } = require('../valueObjects/currency');
+
 const TransactionType = {
     BUY: 'BUY',
     SELL: 'SELL',
-}
-
-const Currency = {
-    BTC: 'Bitcoin',
-    USD: 'USD',
-    EUR: 'EUR',
 }
 
 const Entity = (sequelize, type) => {
@@ -42,6 +38,5 @@ const Entity = (sequelize, type) => {
 
 module.exports = {
     TransactionType,
-    Currency,
     Entity,
 };
