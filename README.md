@@ -6,15 +6,21 @@ Follow the steps below to run locally or simply run [docker compose](#docker).
 
 ### Locally with DB container
 ```sh 
-docker run --name postgresql -p 5432:5432 -e POSTGRES_USER=user -e POSTGRES_PASSWORD=secret -d postgres
-```
-```sh
+git clone https://github.com/Dalot/gameStart
+cd gameStart
 npm i
 cp .env.example .env 
 ```
 Fill the following details for the sandbox environemnt: CLIENT_ID, CLIENT_SECRET, UPHOLD_ACC_EMAIL 
-npm test # sqlite:memory
+
+Then you can run tests (sqlite:memory).
 ```sh
+npm test 
+```
+
+And before runnign the bot, create the db:
+```sh
+docker run --name postgresql -p 5432:5432 -e POSTGRES_USER=user -e POSTGRES_PASSWORD=secret -d postgres
 node index.js
 ```
 
@@ -23,7 +29,7 @@ node index.js
 cp .env.example .env 
 ```
 Fill the following details for the sandbox environemnt: CLIENT_ID, CLIENT_SECRET, UPHOLD_ACC_EMAIL 
-npm test # sqlite:memory
+
 ```sh
 docker-compose up
 ```
