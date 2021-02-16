@@ -18,7 +18,7 @@ Then you can run tests (sqlite:memory).
 npm test 
 ```
 
-And before runnign the bot, create the db:
+Before running the bot, create the db:
 ```sh
 docker run --name postgresql -p 5432:5432 -e POSTGRES_USER=user -e POSTGRES_PASSWORD=secret -d postgres
 node index.js
