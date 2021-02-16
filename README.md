@@ -2,7 +2,7 @@
 A showcase bitcoin bot.
 
 ## Install
-Follow these steps to run locally or simply run with [docker compose](#docker).
+Follow the steps below to run locally or simply run [docker compose](#docker).
 
 ### Locally with DB container
 ```sh 
