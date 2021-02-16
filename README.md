@@ -11,7 +11,7 @@ cd gameStart
 npm i
 cp .env.example .env 
 ```
-Fill the following details for the sandbox environemnt: CLIENT_ID, CLIENT_SECRET, UPHOLD_ACC_EMAIL 
+Fill the following details for the sandbox environemnt: `CLIENT_ID`, `CLIENT_SECRET`, `UPHOLD_ACC_EMAIL`. 
 
 Then you can run tests (sqlite:memory).
 ```sh
@@ -28,7 +28,7 @@ node index.js
 ```sh
 cp .env.example .env 
 ```
-Fill the following details for the sandbox environemnt: CLIENT_ID, CLIENT_SECRET, UPHOLD_ACC_EMAIL 
+Fill the following details for the sandbox environemnt: `CLIENT_ID`, `CLIENT_SECRET`, `UPHOLD_ACC_EMAIL`. 
 
 ```sh
 docker-compose up
