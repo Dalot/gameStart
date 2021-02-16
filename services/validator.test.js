@@ -64,3 +64,68 @@ test("tests validation of isNumeric function", async () => {
     numeric = 324.32; // function should only accept strings
     expect(false).toEqual(Validator.isNumeric(numeric));
 });
+
+test("tests validation of upholdUser", async () => {
+    expect.assertions(4);
+    let user = {
+        email: "john.doe@domain.com",
+        id: "59da72d4-986a-48f1-9ce8-2caee100eeef",
+    };
+    expect(true).toEqual(Validator.validateUpholdUser(user));
+    user = {
+        email: "john.doe@domain.",
+        id: "59da72d4-986a-48f1-9ce8-2caee100eeef",
+    };
+    expect(false).toEqual(Validator.validateUpholdUser(user));
+    user = {
+        email: "john.doe@domain.com",
+        id: 523423,
+    };
+    expect(false).toEqual(Validator.validateUpholdUser(user));
+    user = {
+        email: "john.doe@domain.com",
+    };
+    expect(false).toEqual(Validator.validateUpholdUser(user));
+});
+
+test("tests validation of upholdAsset", async () => {
+    expect.assertions(5);
+    let upholdAsset = {
+        available: "444.55",
+        currencies: {
+            USD: {
+                amount: "444.555"
+            }
+        }
+    };
+    expect(true).toEqual(Validator.validateUpholdAsset(upholdAsset));
+    upholdAsset.currencies = {}
+    expect(false).toEqual(Validator.validateUpholdAsset(upholdAsset));
+    upholdAsset.currencies = {
+        USD: {}
+    }
+    expect(false).toEqual(Validator.validateUpholdAsset(upholdAsset));
+    upholdAsset.currencies = {
+        USD: {
+            amount: ""
+        }
+    }
+    upholdAsset = {
+        currencies: {
+            USD: {
+                amount: "444.555"
+            }
+        }
+    };
+    expect(false).toEqual(Validator.validateUpholdAsset(upholdAsset));
+    upholdAsset = {
+        available: "",
+        currencies: {
+            USD: {
+                amount: "444.555"
+            }
+        }
+    };
+    expect(false).toEqual(Validator.validateUpholdAsset(upholdAsset));
+    
+});

@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
     "big.js": "^6.0.3",
     "dotenv": "^8.2.0",
     "node-fetch": "^2.6.1",

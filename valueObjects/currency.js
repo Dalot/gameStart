@@ -1,5 +1,5 @@
 const Currency = {
-    BTC: 'Bitcoin',
+    BTC: 'BTC',
     USD: 'USD',
     EUR: 'EUR',
 }

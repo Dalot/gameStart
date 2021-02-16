@@ -11,6 +11,11 @@ services:
       - '5432:5432'
     volumes:
       - bot-db:/var/lib/postgresql/data
+    healthcheck:
+      test: pg_isready -U uphold -d uphold
+      interval: 10s
+      timeout: 3s
+      retries: 3
 
   bot:
     container_name: bot
@@ -22,8 +27,12 @@ services:
       DB_PASSWORD: uphold
       DB_HOST: postgres
       DB_DATABASE: uphold
+      BASE_URL: https://api-sandbox.uphold.com
+      CLIENT_ID: ${CLIENT_ID}
+      CLIENT_SECRET: ${CLIENT_SECRET}
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
         
 volumes:
   bot-db:

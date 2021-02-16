@@ -1,25 +1,25 @@
 const db = require('../database/database');
 const { TransactionType } = require('../models/transaction');
 
-module.exports.buy = async (asset, bidCurrency, price) => {
+module.exports.buy = async (asset, amount, cost) => {
 
   const result = await db.transactions.create({
     type: TransactionType.BUY,
-    asset: asset,
-    price_currency: bidCurrency,
-    price: price,
+    asset,
+    amount, 
+    cost
   });
 
   return result;
 };
 
-module.exports.sell = async (asset, askCurrency, price) => {
+module.exports.sell = async (asset, amount, cost) => {
 
   const result = await db.transactions.create({
     type: TransactionType.SELL,
-    asset: asset,
-    price_currency: askCurrency,
-    price: price,
+    asset,
+    amount, 
+    cost
   });
 
   return result;

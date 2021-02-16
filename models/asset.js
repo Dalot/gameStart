@@ -1,6 +1,6 @@
 const { Currency } = require('../valueObjects/currency');
 
-const Entity = (sequelize, type) => {
+const Asset = (sequelize, type) => {
     return sequelize.define('asset', {
         id: {
             type: type.INTEGER,
@@ -16,9 +16,15 @@ const Entity = (sequelize, type) => {
             type: type.DECIMAL(24, 8),
             allowNull: false,
         },
-    })
-}
+        userId: {
+            type: type.INTEGER,
+            allowNull: false,
+        },
+    });
+
+};
+
 
 module.exports = {
-    Entity
+    Asset
 }

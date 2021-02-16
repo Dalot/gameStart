@@ -22,13 +22,12 @@ const Entity = (sequelize, type) => {
             isIn: [[Currency.BTC]],
             allowNull: false,
         },
-        price_currency: {
-            type: type.STRING,
-            isIn: [[Currency.BTC, Currency.EUR, Currency.USD ]],
+        //TODO: Change price to be a ValueObject
+        amount: {
+            type: type.DECIMAL(24,8),
             allowNull: false,
         },
-        //TODO: Change price to be a ValueObject
-        price: {
+        cost: {
             type: type.DECIMAL(12, 5),
             allowNull: false,
         }

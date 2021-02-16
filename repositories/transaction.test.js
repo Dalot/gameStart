@@ -18,21 +18,21 @@ describe('Transaction CRUD', () => {
     });
 
     it('should create buy transaction in db', async () => {
-        await transactionRepository.buy(Currency.BTC, Currency.USD, 4324.24523);
+        await transactionRepository.buy(Currency.BTC, 1, 4324.24523);
         const result = await db.transactions.findAll()
         expect(result.length).toEqual(1)
-        expect(result[0].price).toEqual(4324.24523)
-        expect(result[0].price_currency).toEqual(Currency.USD)
+        expect(result[0].amount).toEqual(1)
+        expect(result[0].cost).toEqual(4324.24523)
         expect(result[0].type).toEqual(TransactionType.BUY)
         expect(result[0].asset).toEqual(Currency.BTC)
     });
 
     it('should create sell transaction in db', async () => {
-        await transactionRepository.sell(Currency.BTC, Currency.USD, 4324.24523)
+        await transactionRepository.sell(Currency.BTC, 1, 4324.24523)
         const result = await db.transactions.findAll()
         expect(result.length).toEqual(1)
-        expect(result[0].price).toEqual(4324.24523)
-        expect(result[0].price_currency).toEqual(Currency.USD)
+        expect(result[0].amount).toEqual(1)
+        expect(result[0].cost).toEqual(4324.24523)
         expect(result[0].type).toEqual(TransactionType.SELL)
         expect(result[0].asset).toEqual(Currency.BTC)
     });
